@@ -319,3 +319,6 @@ tags
 everycheese/media/
 
 .pytest_cache/
+
+
+.env

@@ -11,14 +11,17 @@ BASE_DIR = (
 )  # (everycheese/config/settings/base.py - 3 = everycheese/)
 APPS_DIR = BASE_DIR.path("everycheese")
 
-env = environ.Env()
+env = environ.Env(
+    DB_PASSWORD=str,
+)
 
 READ_DOT_ENV_FILE = env.bool(
-    "DJANGO_READ_DOT_ENV_FILE", default=False
+    "DJANGO_READ_DOT_ENV_FILE", default=True
 )
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR.path(".env")))
+DB_PASSWORD = env('DB_PASSWORD')
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -28,7 +31,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
 # In Windows, this must be set to your system time zone.
-TIME_ZONE = "UTC+6"
+TIME_ZONE = "Asia/Dhaka"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
@@ -47,8 +50,12 @@ LOCALE_PATHS = [BASE_DIR.path("locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'everycheese.db'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'everycheese',
+        'USER': 'postgres',
+        'PASSWORD': DB_PASSWORD,
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -240,7 +247,7 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""Tareq Monwer""", "tareqmonwer137@gmail.com")]
+ADMINS = [("""TareqMonwer""", "tareqmonwer137@gmail.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
