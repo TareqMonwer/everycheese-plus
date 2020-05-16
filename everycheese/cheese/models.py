@@ -5,7 +5,6 @@ from model_utils.models import TimeStampedModel
 
 
 class Cheese(TimeStampedModel):
-
     class Firmness(models.TextChoices):
         UNSPECIFIED = "unspecified", "Unspecified"
         SOFT = "soft", "Soft"
@@ -18,8 +17,8 @@ class Cheese(TimeStampedModel):
                          always_update=False, populate_from='name')
     description = models.TextField("Description", blank=True)
     firmness = models.CharField("Firmness", max_length=20,
-                                choices=Firmness.choices, 
+                                choices=Firmness.choices,
                                 default=Firmness.UNSPECIFIED)
-    
+
     def __str__(self):
         return self.name
