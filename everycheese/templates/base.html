@@ -44,6 +44,10 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
+            <li class="nav-item">
+              {# URL provided by django-allauth/account/urls.py #}
+              <a id="log-in-link" class="nav-link" href="{% url 'cheeses:list' %}">{% trans "Cheese List" %}</a>
+            </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}
@@ -102,4 +106,4 @@
     {% endblock javascript %}
   </body>
 </html>
- 
+
