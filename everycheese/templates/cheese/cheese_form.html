@@ -6,12 +6,12 @@
 {% endblock title %}
 
 
-{% block conent %}
+{% block content %}
   <h1>Add Cheese</h1>
-  <form action="{% url 'cheese:add' %}" method="POST">
+  <form action="{% url 'cheeses:add' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-sm btn-success">
   </form>
-{% endblock conent %}
+{% endblock content %}
 
