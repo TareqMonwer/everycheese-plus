@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+  Create New Cheese
+{% endblock title %}
+
+
+{% block conent %}
+  <h1>Add Cheese</h1>
+  <form action="{% url 'cheese:add' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-sm btn-success">
+  </form>
+{% endblock conent %}
+
