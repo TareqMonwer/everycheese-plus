@@ -3,16 +3,18 @@
 
 
 {% block title %}
-  Create New Cheese
+  {{ view.action|default:"Add" }} New Cheese
 {% endblock title %}
 
 
 {% block content %}
-  <h1>Add Cheese</h1>
-  <form action="{% url 'cheeses:add' %}" method="POST">
+  {% with action=view.action|default:"Add"  %}
+  <h1>{{action}} Cheese</h1>
+  <form action="." method="POST">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" class="btn btn-sm btn-success">
+    <input type="submit" class="btn btn-sm btn-success" value="{{ action }}">
   </form>
+  {% endwith %}
 {% endblock content %}
 

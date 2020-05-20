@@ -8,8 +8,14 @@
 
 
 {% block content %}
+  <p>
+    <a href="{% url 'cheeses:update' cheese.slug %}"
+       class="btn btn-primary"
+       role="button">
+      Update
+    </a>
+  </p>
   <h2>{{ cheese.name }}</h2>
-
 
   {% if cheese.firmness %}
     <p>Firmness: {{ cheese.get_firmness_display }}</p>
@@ -17,7 +23,7 @@
 
 
   {% if cheese.description %}
-    <p>{{ cheese.description }}</p>
+    <p>{{ cheese.description|linebreaksbr }}</p>
   {% endif %}
 
 
