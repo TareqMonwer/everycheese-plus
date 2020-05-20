@@ -14,9 +14,10 @@ from ..models import Cheese
 from ..views import (
     CheeseCreateView,
     CheeseListView,
-    CheeseDetailView
+    CheeseDetailView,
+    CheeseUpdateView
 )
-from .factories import CheeseFactory
+from .factories import CheeseFactory, cheese
 
 pytestmark = pytest.mark.django_db
 
@@ -38,8 +39,7 @@ def test_cheese_list_contains_2_cheeses(rf):
     assertContains(response, cheese2.name)
 
 
-def test_good_cheese_detail_view(rf):
-    cheese = CheeseFactory()
+def test_good_cheese_detail_view(rf, cheese):
     url = reverse('cheeses:detail',
                   kwargs={'slug': cheese.slug})
     request = rf.get(url)
@@ -48,8 +48,7 @@ def test_good_cheese_detail_view(rf):
     assertContains(response, cheese.name)
 
 
-def test_detail_contains_cheese_data(rf):
-    cheese = CheeseFactory()
+def test_detail_contains_cheese_data(rf, cheese):
     request = rf.get(reverse('cheeses:detail',
                              kwargs={'slug': cheese.slug}))
     response = CheeseDetailView.as_view()(request, slug=cheese.slug)
@@ -82,3 +81,33 @@ def test_cheese_create_form_valid(rf, admin_user):
     assert cheese.name == data.get('name')
     assert cheese.description == data.get('description')
     assert cheese.creator == admin_user
+
+
+def test_cheese_create_correct_title(rf, admin_user):
+    request = rf.post(reverse('cheeses:add'))
+    request.user = admin_user
+    response = CheeseCreateView.as_view()(request)
+    assertContains(response, 'Add Cheese')
+
+
+def test_good_cheese_update(rf, admin_user, cheese):
+    url = reverse('cheeses:update', kwargs={'slug': cheese.slug})
+    request = rf.get(url)
+    request.user = admin_user
+    response = CheeseUpdateView.as_view()(request, slug=cheese.slug)
+    assertContains(response, 'Update Cheese')
+
+
+def test_cheese_update(rf, admin_user, cheese):
+    data = {
+        'name': 'New testy',
+        'description': 'new testy description',
+        'firmness': Cheese.Firmness.SEMI_HARD
+    }
+    request = rf.post(reverse('cheeses:update',
+                              kwargs={'slug': cheese.slug}),
+                      data)
+    request.user = admin_user
+    response = CheeseUpdateView.as_view()(request, slug=cheese.slug)
+    cheese.refresh_from_db()
+    assert cheese.name == 'New testy'
