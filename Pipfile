@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 pytz = "==2020.1"
 python-slugify = "==4.0.0"
-pillow = "==7.1.1"
+pillow = "==9.3.0"
 argon2-cffi = "==19.2.0"
 whitenoise = "==5.0.1"
 unidecode = "==1.1.1"
